@@ -32,6 +32,13 @@ class CreateTasksView(LoginRequiredMixin,CreateView):
     form_class = TasksForm
 
     model = Tasks
+    def form_valid(self, form):
+        form.instance.assignee = self.request.user
+        return super(CreateTasksView, self).form_valid(form)
+    # def get_initial(self):
+    #     return {
+    #         'assignee': self.request.user
+    #     }
     # def get_success_url(self):
     #     return reverse_lazy("tasks_detail")
 

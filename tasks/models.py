@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 User =get_user_model()
 # Create your models here.
 class Tasks(models.Model):
-    assignee = models.ForeignKey(User,on_delete = models.CASCADE)
+    assignee = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
