@@ -53,7 +53,7 @@ class TasksUpdateView(LoginRequiredMixin,UpdateView):
 
 class TasksDeleteView(LoginRequiredMixin,DeleteView):
     model = Tasks
-    success_url = reverse_lazy('tasks_list')
+    success_url = reverse_lazy('tasks:tasks_list')
 
 
 @login_required

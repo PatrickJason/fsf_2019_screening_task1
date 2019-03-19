@@ -20,7 +20,10 @@
 
           <p class='taskscontent' >{{ tasks.description|safe|linebreaksbr }}</p>
 
-
+          {% if user.is_authenticated %}
+              <a class="btn btn-dark" href="{% url 'tasks:tasks_edit' pk=tasks.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+              <a class="btn btn-primary" href="{% url 'tasks:tasks_remove' pk=tasks.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+          {% endif %}
 
 
 

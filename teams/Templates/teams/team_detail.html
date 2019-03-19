@@ -1,0 +1,39 @@
+{% extends "teams/teams_base.html" %}
+
+{% block preteams %}
+
+
+<h1>{{teams.name}}</h1>
+<h2> Member Count: {{teams.members.count}}</h2>
+
+  <div class="content">
+
+
+				{% if user in teams.members.all %}
+					<a href="{% url 'teams:leave' slug=teams.slug %}" class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-remove-circle"></span> Leave</a>
+				{% else %}
+					<a href="{% url 'teams:join' slug=teams.slug %}" class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span> Join</a>
+				{% endif %}
+
+
+
+</div>
+
+{% endblock %}
+
+
+{% block teams_content %}
+
+<div class="col-md-8">
+	{% if teams.posts.count == 0 %}
+	<h2>No posts in this teams yet!</h2>
+
+	{% else %}
+
+		{% for post in teams.posts.all %}
+			{% include "posts/_post.html" %}
+		{% endfor %}
+
+	{% endif %}
+</div>
+{% endblock %}
