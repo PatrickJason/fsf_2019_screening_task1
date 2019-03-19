@@ -53,14 +53,14 @@ class TasksDeleteView(LoginRequiredMixin,DeleteView):
 def add_comment_to_tasks(request, pk):
     task = get_object_or_404(Tasks, pk=pk)
     if request.method == "POST":
-        form = CommentForm(request.POST)
+        form = CommentsForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.task = task
             comment.save()
-            return redirect('tasks_detail', pk=tasks.pk)
+            return redirect('tasks:tasks_detail', pk=task.pk)
     else:
-        form = CommentForm()
+        form = CommentsForm()
     return render(request, 'tasks/comment_form.html', {'form': form})
 
 @login_required
@@ -68,4 +68,4 @@ def comment_remove(request, pk):
     comment = get_object_or_404(Comments, pk=pk)
     post_pk = comments.task.pk
     comment.delete()
-    return redirect('tasks_detail', pk=task_pk)
+    return redirect('tasks:tasks_detail', pk=task.pk)
