@@ -34,6 +34,7 @@ class CreateTasksView(LoginRequiredMixin,CreateView):
     model = Tasks
     def form_valid(self, form):
         form.instance.assignee = self.request.user
+        form.instance.assignee_str = str(self.request.user)
         return super(CreateTasksView, self).form_valid(form)
     # def get_initial(self):
     #     return {

@@ -12,6 +12,7 @@ class Tasks(models.Model):
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=200)
+    assignee_str = models.TextField(default = 1)
 
     def __str__(self):
         return self.assignee

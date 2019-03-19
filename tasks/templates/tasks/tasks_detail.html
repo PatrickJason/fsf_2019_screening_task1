@@ -8,7 +8,7 @@
   <body>
     {% block content %}
           {% if user.is_authenticated  %}
-{{tasks.assignee}}
+{{user.username}}
 {% endif %}
             <h1 class='taskstitle loader'>{{ tasks.title }}</h1>
 
@@ -20,7 +20,7 @@
 
           <p class='taskscontent' >{{ tasks.description|safe|linebreaksbr }}</p>
 
-          {% if user.is_authenticated %}
+          {% if user.username == tasks.assignee_str  %}
               <a class="btn btn-dark" href="{% url 'tasks:tasks_edit' pk=tasks.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
               <a class="btn btn-primary" href="{% url 'tasks:tasks_remove' pk=tasks.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
           {% endif %}
