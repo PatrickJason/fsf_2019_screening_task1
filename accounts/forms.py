@@ -1,11 +1,17 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-
+from django import forms
 
 class UserCreateForm(UserCreationForm):
     class Meta:
-        fields = ("username", "email", "password1", "password2")
+        password1 = forms.CharField(widget=forms.PasswordInput(attrs ={'class': 'form-control','placeholder': "Confirm your password ...."}))
+        fields = ("username", "email", "password1", "password2",)
         model = get_user_model()
+        widgets = {
+        "username":forms.TextInput(attrs={'class': 'form-control','placeholder': 'Enter your username ....'}),
+        "email":forms.TextInput(attrs={'class': 'form-control','placeholder': "Enter your email ...."}),
+        "password2":forms.TextInput(attrs ={'class': 'form-control','placeholder': "Confirm your password ...."}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

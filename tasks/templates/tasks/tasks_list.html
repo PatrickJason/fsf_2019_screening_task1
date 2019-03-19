@@ -1,0 +1,21 @@
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+<div class="centerstage">
+
+    {% for tasks in tasks_list %}
+        <div class="tasks">
+
+            <h1><a href="{% url 'tasks:tasks_detail' pk=tasks.pk %}">{{ tasks.title }}</a></h1>
+            <div class="date">
+                <p>Published on: {{ tasks.created_date|date:"D M Y"}}</p>
+            </div>
+            <div class="taskcreator">
+              <p>Assignee : {{tasks.assignee}}
+              </p>
+            </div>
+            <a href="{% url 'tasks:tasks_detail' pk=tasks.pk %}">Comments: {{ tasks.comments.count }}</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

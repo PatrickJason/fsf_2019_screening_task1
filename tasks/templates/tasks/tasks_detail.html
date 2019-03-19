@@ -1,0 +1,52 @@
+{% extends 'tasks/base.html' %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    {% block content %}
+
+
+            <h1 class='taskstitle loader'>{{ tasks.title }}</h1>
+
+            {% if tasks.created_date %}
+                <div class="date tasksdate">
+                    {{ tasks.created_date }}
+                </div>
+          {% endif %}
+
+          <p class='taskscontent' >{{ tasks.description|safe|linebreaksbr }}</p>
+
+
+
+
+
+      <hr>
+      <a class="btn btn-primary btn-comment" href="{% url 'tasks:add_comment_to_tasks' pk=tasks.pk %}">Add comment</a>
+      <div class="container">
+
+
+      {% for comment in tasks.comments.all %}
+      <br>
+          {% if user.is_authenticated  %}
+
+                  {{ comment.created_date }}
+                  {% if not comment.approved_comment %}
+                      <a class="btn btn-default" href="{% url 'tasks:comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                      <a class="btn btn-default" href="{% url 'tasks:comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+          {% endif %}
+
+              <p>{{ comment.text|safe|linebreaks }}</p>
+              <p>Posted by: <strong>{{ comment.author }}</strong></p>
+
+          {% endif %}
+      {% empty %}
+          <p>No comments posted.</p>
+      {% endfor %}
+    </div>
+
+  {% endblock %}
+  </body>
+</html>
