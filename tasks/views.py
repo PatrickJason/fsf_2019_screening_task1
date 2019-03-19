@@ -57,6 +57,7 @@ def add_comment_to_tasks(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.task = task
+            comment.author = request.user
             comment.save()
             return redirect('tasks:tasks_detail', pk=task.pk)
     else:
