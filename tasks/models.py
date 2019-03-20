@@ -7,15 +7,15 @@ from django.contrib.auth import get_user_model
 User =get_user_model()
 # Create your models here.
 class Tasks(models.Model):
-    assignee = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)
+    task_creator = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=200)
-    assignee_str = models.TextField(default = 1)
+    task_creator_str = models.TextField(default = 1)
 
     def __str__(self):
-        return self.assignee
+        return self.task_creator
 
     def get_absolute_url(self):
         return reverse_lazy('tasks:tasks_detail',kwargs={'pk':self.pk})

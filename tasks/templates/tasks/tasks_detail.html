@@ -7,10 +7,8 @@
   </head>
   <body>
     {% block content %}
-          {% if user.is_authenticated  %}
-{{user.username}}
-{% endif %}
-            <h1 class='taskstitle loader'>{{ tasks.title }}</h1>
+
+            <h1 class='taskstitle loader'>Task: {{ tasks.title }}</h1>
 
             {% if tasks.created_date %}
                 <div class="date tasksdate">
@@ -18,9 +16,9 @@
                 </div>
           {% endif %}
 
-          <p class='taskscontent' >{{ tasks.description|safe|linebreaksbr }}</p>
+          <p class='taskscontent' > DESCRIPTION: {{ tasks.description|safe|linebreaksbr }}</p>
 
-          {% if user.username == tasks.assignee_str  %}
+          {% if user.username == tasks.task_creator_str  %}
               <a class="btn btn-dark" href="{% url 'tasks:tasks_edit' pk=tasks.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
               <a class="btn btn-primary" href="{% url 'tasks:tasks_remove' pk=tasks.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
           {% endif %}

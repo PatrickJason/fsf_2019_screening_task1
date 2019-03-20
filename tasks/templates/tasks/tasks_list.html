@@ -11,7 +11,7 @@
                 <p>Published on: {{ tasks.created_date|date:"D M Y"}}</p>
             </div>
             <div class="taskcreator">
-              <p>Assignee : {{tasks.assignee}}
+              <p>Assignee : {{tasks.task_creator}}
               </p>
             </div>
             <a href="{% url 'tasks:tasks_detail' pk=tasks.pk %}">Comments: {{ tasks.comments.count }}</a>
