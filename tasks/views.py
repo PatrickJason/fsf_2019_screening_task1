@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from tasks.models import Tasks
 from django.utils import timezone
-from tasks.forms import TasksForm, CommentsForm
+from tasks.forms import TasksForm, CommentsForm,AddAssigneeForm
 from teams.models import Teams
 from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
@@ -54,6 +54,9 @@ class TasksListView(ListView):
                     my_team_tasks.append(task)
         temp_members=[]
         print('teams :',teams)
+        # for team in teams:
+            # for mem in team.team_members.all():
+                # temp_members.append(mem)
         print('members',temp_members)
 
         context = super(TasksListView, self).get_context_data(**kwargs)
@@ -82,12 +85,16 @@ class CreateTasksView(LoginRequiredMixin,CreateView):
         form.instance.task_creator_str = str(self.request.user)
         return super(CreateTasksView, self).form_valid(form)
 
-
-class TasksUpdateView(LoginRequiredMixin,UpdateView):
+class PassRequestToFormViewMixin:
+    def get_form_kwargs(self):
+        kwargs = super(PassRequestToFormViewMixin, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+class TasksUpdateView(PassRequestToFormViewMixin,LoginRequiredMixin,UpdateView):
     login_url = '/login/'
     redirect_field_name = 'tasks/tasks_detail.html'
 
-    form_class = TasksForm
+    form_class = AddAssigneeForm
 
     model = Tasks
 
