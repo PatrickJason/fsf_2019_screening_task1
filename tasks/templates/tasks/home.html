@@ -50,7 +50,7 @@ font-family: 'Anton', sans-serif; !important;
                 <h3>Teams created by you : </h3>
                 {% for team in teams_created %}
 
-                <h4>{{ forloop.counter | linebreaksbr}}<a href="{% url 'teams:single' pk=team.pk %}">{{team}}</a>   ( Team Creator )</h4>
+                <h4>{{ forloop.counter | linebreaksbr}}  {{team}} ( Team Creator )</h4>
 
                 {% endfor %}
             </div>
@@ -60,7 +60,7 @@ font-family: 'Anton', sans-serif; !important;
                 {% for team in teams %}
 
 
-                <h4>{{ forloop.counter | linebreaksbr}}<a href="{% url 'teams:single' pk=team.pk %}">{{team}}</a>    ( Member )</h4>
+                <h4>{{ forloop.counter | linebreaksbr}}    {{team}} ( Member )</h4>
 
                 {% endfor %}
             </div>
@@ -97,9 +97,9 @@ font-family: 'Anton', sans-serif; !important;
     </div>
     {% else %}
 
-        <div >
+        <div class="jumbotron text-center">
                 <h1>Task Manager</h1>
-                <h3>Welcome </h3>
+                <h3>Welcome 👋</h3>
                 <p>Please signin or signup to continue</p>
         </div>
         <br><br>

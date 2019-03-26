@@ -1,13 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from tasks.models import Tasks, Comments
+from django.core.exceptions import ObjectDoesNotExist
+from tasks.models import Tasks
 from django.utils import timezone
 from tasks.forms import TasksForm, CommentsForm
-
+from teams.models import Teams
 from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
                                   UpdateView,DeleteView)
-
+from django.contrib.auth import get_user_model
+User =get_user_model()
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
@@ -16,9 +18,51 @@ class AboutView(TemplateView):
 
 class TasksListView(ListView):
     model = Tasks
+    def get_context_data(self, **kwargs):
+        teams=[]
+        temp_for_storing_teams=[]
+        # for t in Teams.objects.None():
+        i=1
+        while(True):
+            try:
+                t = Teams.objects.get(id=i)
+                i=i+1
+                team_instance = t.team_members.all()
+                for m in team_instance:
+                    if str(m) == str(self.request.user):
+                        temp_for_storing_teams.append(t)
+                # temp =[team for team in Teams.objects.all() if self.request.user in t.team_members.all()]
+                for var in temp_for_storing_teams:
+                    if var not in teams:
+                        teams.append(var)
+            except ObjectDoesNotExist:
+                print('team DoesNotExist')
+                break
+        print(teams)
+        # t = Teams.objects.first()
+        # application.positions.all()
+        # t = Teams.objects.first()
+        # application.positions.all()
+        # teams = [team for team in Teams.objects.all() if self.request.user in t.team_members.all()]
+        teams_created = [team for team in Teams.objects.all() if self.request.user == team.created_by]
+        tasks_created = [task for task in Tasks.objects.all() if self.request.user == task.task_creator]
+        tasks_assigned = [task for task in Tasks.objects.all() if self.request.user == task.assignee]
+        my_team_tasks = []
+        for team in teams:
+            for task in Tasks.objects.all():
+                if task.assigned_to_team == team:
+                    my_team_tasks.append(task)
+        temp_members=[]
+        print('teams :',teams)
+        print('members',temp_members)
 
-    def get_queryset(self):
-        return Tasks.objects.filter(created_date__lte=timezone.now()).order_by('-created_date')
+        context = super(TasksListView, self).get_context_data(**kwargs)
+        context['teams'] = teams
+        context['teams_created']=teams_created
+        context['tasks_created']=tasks_created
+        context['tasks_assigned']=tasks_assigned
+        context['my_team_tasks']=my_team_tasks
+        return context
 
 class TasksDetailView(DetailView):
     model = Tasks
@@ -29,6 +73,7 @@ class CreateTasksView(LoginRequiredMixin,CreateView):
 
     redirect_field_name = 'tasks/tasks_detail.html'
 
+
     form_class = TasksForm
 
     model = Tasks
@@ -36,12 +81,7 @@ class CreateTasksView(LoginRequiredMixin,CreateView):
         form.instance.task_creator = self.request.user
         form.instance.task_creator_str = str(self.request.user)
         return super(CreateTasksView, self).form_valid(form)
-    # def get_initial(self):
-    #     return {
-    #         'assignee': self.request.user
-    #     }
-    # def get_success_url(self):
-    #     return reverse_lazy("tasks_detail")
+
 
 class TasksUpdateView(LoginRequiredMixin,UpdateView):
     login_url = '/login/'

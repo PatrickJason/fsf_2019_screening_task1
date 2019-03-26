@@ -1,0 +1,11 @@
+{% extends "teams/teams_base.html" %}
+
+
+{% block teams_content %}
+<h4>Create A New Team</h4>
+  <form method="POST" action="{% url 'teams:create' %}" id="groupForm">
+  	{% csrf_token %}
+  	{{ form.as_p }}
+  	<input type="submit" value="Create" class="btn btn-primary btn-large">
+  </form>
+{% endblock %}

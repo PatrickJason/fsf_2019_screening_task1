@@ -6,6 +6,35 @@
     <form method="POST" class="post-form">
     {% csrf_token %}
     {{form.as_p}}
+    {{teams}}
+    {{teams_created}}
+    {{tasks_created}}
+    {{tasks_assigned}}
+    {{my_team_tasks}}
+    teams
+    {% for temp in teams %}
+<p>{{temp}}</p>
+    {% endfor %}
+    team created
+    {% for temp in teams_created %}
+<p>{{temp}}</p>
+    {% endfor %}
+    task created
+    {% for temp in tasks_created %}
+<p>{{temp}}</p>
+    {% endfor %}
+    task assigned
+    {% for temp in tasks_assigned %}
+<p>{{temp}}</p>
+    {% endfor %}
+    {% for temp in my_team_tasks %}
+<p>{{temp}}</p>
+    {% endfor %}
+    {{teams}}
+    {{teams_created}}
+    {{tasks_created}}
+    {{tasks_assigned}}
+    {{my_team_tasks}}
     <button type="submit" class="save btn btn-default">Save</button>
     </form>
 

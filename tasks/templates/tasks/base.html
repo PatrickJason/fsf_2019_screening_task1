@@ -33,13 +33,13 @@
 
   </head>
 
-
+<!-- <body background=""> -->
   <body>
 
-    <nav class="navbar  mynav" role="navigation" id="navbar">
+    <nav class="navbar  navbar-inverse mynav" role="navigation" id="navbar">
     			<div class="container">
 
-            <a class="navbar-brand mynav" href="{% url 'home' %}">Task Manager</a>
+            <a class="navbar-brand mynav" href="{% url 'tasks:tasks_list' %}">Task Manager</a>
 
     					<ul class="nav navbar-nav navbar-right">
     						{% if user.is_authenticated %}

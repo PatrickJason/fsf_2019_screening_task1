@@ -1,0 +1,35 @@
+{% extends "teams/teams_base.html" %}
+
+{% block preteams %}
+
+
+<h1>{{teams.name}}</h1>
+<h2> Member Count: {{teams.team_members.count}}</h2>
+<p>Members</p>
+{% for member in teams.team_members.all %}
+<p> {{member}} </p>
+{% endfor %}
+<p>Tasks </p>
+{% for t in teams.assigned_to_team.all %}
+<p> {{t.title}} </p>
+{% endfor %}
+{{teams.assigned_to_team.title}}
+
+{% endblock %}
+
+
+{% block teams_content %}
+
+<div class="col-md-8">
+	{% if teams.tasks.count == 0 %}
+	<h2>No posts in this teams yet!</h2>
+
+	{% else %}
+
+		{% for post in teams.tasks.all %}
+{{post}}
+		{% endfor %}
+
+	{% endif %}
+</div>
+{% endblock %}
