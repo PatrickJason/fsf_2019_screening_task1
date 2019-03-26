@@ -5,8 +5,9 @@
 <style media="screen">
   html *
 {
-font-family: 'Anton', sans-serif; !important;
+font-family: 'Anton', sans-serif;color=#E25D33 !important;
 }
+<font>
 </style>
 <head>
     <meta charset="utf-8">
@@ -23,13 +24,12 @@ font-family: 'Anton', sans-serif; !important;
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
-<body>
+<body bgcolor =#282827 >
 
     {% if user.is_authenticated %}
 
     <div class="jumbotron ">
         <h3>Welcome {{user.username}}</h3>
-        <a href="{% url 'logout' %}">LOGOUT</a>
     </div>
 
     <div class="container" style="background-color:aliceblue; text-align: center;">
@@ -47,20 +47,20 @@ font-family: 'Anton', sans-serif; !important;
         <div class="row">
 
             <div class="col-sm-6">
-                <h3>Teams created by you : </h3>
+                <h3>Teams Admin : </h3>
                 {% for team in teams_created %}
 
-                <h4>{{ forloop.counter | linebreaksbr}}<a href="{% url 'teams:single' pk=team.pk %}">{{team}}</a>   ( Team Creator )</h4>
+                <h4>{{ forloop.counter | linebreaksbr}}.<a href="{% url 'teams:single' pk=team.pk %}">{{team}}</a>   ( Team Creator )</h4>
 
                 {% endfor %}
             </div>
 
             <div class="col-sm-6">
-            <h3>Teams you are part of : </h3>
+            <h3>My Teams : </h3>
                 {% for team in teams %}
 
 
-                <h4>{{ forloop.counter | linebreaksbr}}<a href="{% url 'teams:single' pk=team.pk %}">{{team}}</a>    ( Member )</h4>
+                <h4>{{ forloop.counter | linebreaksbr}}.<a href="{% url 'teams:single' pk=team.pk %}">{{team}}</a>    ( Member )</h4>
 
                 {% endfor %}
             </div>
@@ -72,27 +72,24 @@ font-family: 'Anton', sans-serif; !important;
         <div class="row">
 
             <div class="col-sm-4">
-                <h3>Tasks created by you : </h3>
+                <h3>Tasks created by me : </h3>
                 {% for task in tasks_created %}
-                    <h4>{{ forloop.counter | linebreaksbr}} {{task}}</h4>
+                    <h4>{{ forloop.counter | linebreaksbr}}.<a href="{% url 'tasks:tasks_detail' pk=task.pk%}">{{task}}</a></h4>
                 {% endfor %}
             </div>
             <div class="col-sm-4">
-                <h3>Tasks assigned to you :</h3>
+                <h3>Tasks assigned to me :</h3>
                 {% for task in tasks_assigned %}
-                    <h4>{{ forloop.counter | linebreaksbr}} {{task}}</h4>
+                    <h4>{{ forloop.counter | linebreaksbr}}.<a href="{% url 'tasks:tasks_detail' pk=task.pk%}">{{task}}</a></h4>
                 {% endfor %}
             </div>
             <div class="col-sm-4">
-                <h3>Tasks of your Teams :</h3>
+                <h3>Tasks of my Teams :</h3>
                 {% for task in my_team_tasks %}
-                    <h4>{{ forloop.counter | linebreaksbr}} {{task}}</h4>
+                    <h4>{{ forloop.counter | linebreaksbr}}.<a href="{% url 'tasks:tasks_detail' pk=task.pk%}">{{task}}</a></h4>
                 {% endfor %}
             </div>
 
-        </div>
-        <div class="footer">
-            <h5>Ps: All the colored teams & tasks are links</h5>
         </div>
     </div>
     {% else %}
