@@ -4,8 +4,9 @@ from django.contrib.auth.mixins import(
     LoginRequiredMixin,
     PermissionRequiredMixin
 )
+from django.views.generic import DeleteView
 from tasks.models import Tasks, Comments
-from django.urls import reverse
+from django.urls import reverse,reverse_lazy
 from django.db import IntegrityError
 from django.shortcuts import get_object_or_404
 from django.views import generic
@@ -34,6 +35,11 @@ class SingleTeams(generic.DetailView):
         tasks_created = [task for task in Tasks.objects.all() if self.request.user == task.task_creator]
         tasks_assigned = [task for task in Tasks.objects.all() if self.request.user == task.assignee]
         # team_mem = [ mem for mem in ]
+        print(teams_created)
+        team_str=[]
+        for t in teams_created:
+            team_str.append(str(t))
+        print(team_str)
         my_team_tasks = []
         for team in teams1:
             for task in Tasks.objects.all():
@@ -45,6 +51,9 @@ class SingleTeams(generic.DetailView):
         context['tasks_created']=tasks_created
         context['tasks_assigned']=tasks_assigned
         context['my_team_tasks']=my_team_tasks
+        context['team_str']= team_str
+        # t = Teams.objects.get(id = pk)
+        # context['creator'] = str(t.created_by)
         return context
 
 
@@ -71,7 +80,9 @@ class JoinTeams(LoginRequiredMixin, generic.RedirectView):
 
         return super().get(request, *args, **kwargs)
 
-
+class TeamsDeleteView(LoginRequiredMixin,DeleteView):
+    model = Teams
+    success_url = reverse_lazy('tasks:tasks_list')
 class LeaveTeams(LoginRequiredMixin, generic.RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):

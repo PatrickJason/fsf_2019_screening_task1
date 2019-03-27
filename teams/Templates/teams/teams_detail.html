@@ -1,35 +1,54 @@
-{% extends "teams/teams_base.html" %}
-
-{% block preteams %}
 
 
-<h1>{{teams.name}}</h1>
-<h2> Member Count: {{teams.team_members.count}}</h2>
-<p>Members</p>
-{% for member in teams.team_members.all %}
-<p> {{member}} </p>
-{% endfor %}
-<p>Tasks </p>
-{% for t in teams.assigned_to_team.all %}
-<p> {{t.title}} </p>
-{% endfor %}
-{{teams.assigned_to_team.title}}
 
-{% endblock %}
+{% extends 'tasks/base.html' %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    {% block content %}
+
+            <h2 class='taskstitle loader'>Team: {{ teams.name }}</h2>
+						<h3> Member Count: {{teams.team_members.count}}</h3>
 
 
-{% block teams_content %}
+			<div class="container" class="border border-primary">
+					<div class="row">
 
-<div class="col-md-8">
-	{% if teams.tasks.count == 0 %}
-	<h2>No posts in this teams yet!</h2>
+							<div class="col-sm-6" style="background-color:	#99ccff;font-family: 'Montserrat', sans-serif; " >
 
-	{% else %}
+									<h3>Team members : </h3>
+									{% for member in teams.team_members.all %}
 
-		{% for post in teams.tasks.all %}
-{{post}}
-		{% endfor %}
+									<h4>{{ forloop.counter | linebreaksbr}}.{{member}}</h4>
 
-	{% endif %}
-</div>
-{% endblock %}
+									{% endfor %}
+							</div>
+
+							<div class="col-sm-6" style="background-color: #99b3ff;font-family: 'Montserrat', sans-serif;">
+							<h3>Tasks of this team : </h3>
+									{% for t in teams.assigned_to_team.all %}
+
+
+									<h4>{{ forloop.counter | linebreaksbr}}.{{t.title}}</h4>
+
+									{% endfor %}
+							</div>
+							<br>
+							{% for t in team_str %}
+							{% if teams.name == t  %}
+							<br>
+		           <h3>Delete team :        </h3><br>   <a class="btn btn-primary" href="{% url 'teams:teams_remove' pk=teams.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+		          {% endif %}
+							{% endfor %}
+
+					</div>
+
+    </div>
+
+  {% endblock %}
+  </body>
+</html>

@@ -7,7 +7,6 @@
 {
 font-family: 'Anton', sans-serif;color=#E25D33 !important;
 }
-<font>
 </style>
 <head>
     <meta charset="utf-8">
@@ -17,24 +16,25 @@ font-family: 'Anton', sans-serif;color=#E25D33 !important;
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     {% load static %}
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body bgcolor =#282827 >
 
     {% if user.is_authenticated %}
 
-    <div class="container ">
-        <h1 style="color:#61e8da ;font-family:verdana;">Welcome @ {{user.username}}</h1>
+    <div class="container  ">
+        <h1 style="color:#8080ff ;font-family: 'Montserrat', sans-serif;">Welcome @ {{user.username}}</h1>
     </div>
 
-    <div class="container" style="background-color:aliceblue; text-align: center;">
-        <div class="row">
-            <div class = "col-md-6">
+    <div class="container" style="background-color: #000000; color: #ffffff;font-family: 'Montserrat', sans-serif;">
+        <div class="row" >
+            <div class = "col-md-6" >
                 <h2></h2>
             </div>
             <div class = "col-md-6">
@@ -42,11 +42,12 @@ font-family: 'Anton', sans-serif;color=#E25D33 !important;
             </div>
         </div>
     </div>
-
-    <div class="container">
+  <span class="border border-info">
+    <div class="container" class="border border-primary">
         <div class="row">
 
-            <div class="col-sm-6">
+            <div class="col-sm-6" style="background-color:	#99ccff;font-family: 'Montserrat', sans-serif; " >
+
                 <h3>Teams Admin : </h3>
                 {% for team in teams_created %}
 
@@ -55,7 +56,7 @@ font-family: 'Anton', sans-serif;color=#E25D33 !important;
                 {% endfor %}
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-6" style="background-color: #99b3ff;font-family: 'Montserrat', sans-serif;">
             <h3>My Teams : </h3>
                 {% for team in teams %}
 
@@ -71,19 +72,19 @@ font-family: 'Anton', sans-serif;color=#E25D33 !important;
 
         <div class="row">
 
-            <div class="col-sm-4">
+            <div class="col-sm-4" style="background-color: #9999ff;font-family: 'Montserrat', sans-serif;">
                 <h3>Tasks created by me : </h3>
                 {% for task in tasks_created %}
                     <h4>{{ forloop.counter | linebreaksbr}}.<a href="{% url 'tasks:tasks_detail' pk=task.pk%}">{{task}}</a></h4>
                 {% endfor %}
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4" style="background-color: 	#b399ff;font-family: 'Montserrat', sans-serif;">
                 <h3>Tasks assigned to me :</h3>
                 {% for task in tasks_assigned %}
                     <h4>{{ forloop.counter | linebreaksbr}}.<a href="{% url 'tasks:tasks_detail' pk=task.pk%}">{{task}}</a></h4>
                 {% endfor %}
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4" style="background-color:#cc99ff;font-family: 'Montserrat', sans-serif;">
                 <h3>Tasks of my Teams :</h3>
                 {% for task in my_team_tasks %}
                     <h4>{{ forloop.counter | linebreaksbr}}.<a href="{% url 'tasks:tasks_detail' pk=task.pk%}">{{task}}</a></h4>
@@ -92,6 +93,7 @@ font-family: 'Anton', sans-serif;color=#E25D33 !important;
 
         </div>
     </div>
+    </span>
     {% else %}
 
         <div >

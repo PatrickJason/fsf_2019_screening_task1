@@ -46,7 +46,10 @@ class TasksListView(ListView):
         # teams = [team for team in Teams.objects.all() if self.request.user in t.team_members.all()]
         teams_created = [team for team in Teams.objects.all() if self.request.user == team.created_by]
         tasks_created = [task for task in Tasks.objects.all() if self.request.user == task.task_creator]
-        tasks_assigned = [task for task in Tasks.objects.all() if self.request.user == task.assignee]
+        for t in Tasks.objects.all():
+            for i in t.assignee.all():
+                print('assignee',i)
+        tasks_assigned = [task for task in Tasks.objects.all() if self.request.user in task.assignee.all()]
         my_team_tasks = []
         for team in teams:
             for task in Tasks.objects.all():
