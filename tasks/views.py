@@ -81,8 +81,55 @@ class CreateTasksView(LoginRequiredMixin,CreateView):
 
 
     form_class = TasksForm
-
     model = Tasks
+    def get_form_kwargs(self):
+        kwargs = super(CreateTasksView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+    def __init__(self, **kwargs):
+        """
+        Constructor. Called in the URLconf; can contain helpful extra
+        keyword arguments, and other things.
+        """
+        # Go through keyword arguments, and either save their values to our
+        # instance, or raise an error.
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+            teams=[]
+            temp_for_storing_teams=[]
+            # for t in Teams.objects.None():
+            i=1
+            memb =[]
+            try:
+                myid = self.instance.assigned_to_team_id
+                print(myid)
+                t = Teams.objects.get(id = myid)
+                i=i+1
+                team_instance = t.team_members.all()
+                for m in team_instance:
+                    memb.append(m)
+                    if str(m) == str(self.request.user):
+                        temp_for_storing_teams.append(t)
+                # temp =[team for team in Teams.objects.all() if self.request.user in t.team_members.all()]
+                for var in temp_for_storing_teams:
+                    if var not in teams:
+                        teams.append(var)
+            except ObjectDoesNotExist:
+                print('team DoesNotExist')
+            print('memb',memb)
+            c=[]
+            i=0
+            teams_created = [team for team in Teams.objects.all() if request.user == team.created_by]
+            for x in teams_created:
+                i=i+1
+                c.append((i,x))
+            c=tuple(c)
+            print(c)
+            val = [ (x.id,x) for x in User.objects.all()]
+            print(val)
+            assigned_to_team = forms.ChoiceField(widget=forms.CheckboxSelectMultiple,label="Notify and subscribe users to this post:",choices= c)
+            self.fields['assigned_to_team'].choices = c
+
     def form_valid(self, form):
         form.instance.task_creator = self.request.user
         form.instance.task_creator_str = str(self.request.user)

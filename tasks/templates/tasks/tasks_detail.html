@@ -7,26 +7,30 @@
   </head>
   <body>
     {% block content %}
+      <div class="Container">
 
-            <h1 class='taskstitle loader'>Task: {{ tasks.title }}</h1>
+							<div class="col-sm-12" style="background-color: #99b3ff;font-family: 'Montserrat', sans-serif; display:block">
+            <h1 class='taskstitle loader'><b>Task:</b> {{ tasks.title }}</h1>
 
             {% if tasks.created_date %}
                 <div class="date tasksdate">
-                    {{ tasks.created_date }}{{tasks.assigned_to_team}}
+                    {{ tasks.created_date }}
                 </div>
           {% endif %}
 
-          <p class='taskscontent' > DESCRIPTION: {{ tasks.description|safe|linebreaksbr }}</p>
+          <p class='taskscontent' ><b> DESCRIPTION: </b>{{ tasks.description|safe|linebreaksbr }}</p>
 
           {% if user.username == tasks.task_creator_str  %}
-              <a class="btn btn-dark" href="{% url 'tasks:tasks_edit' pk=tasks.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+              <a class="btn btn-dark" href="{% url 'tasks:tasks_edit' pk=tasks.pk %}" ><span class="glyphicon glyphicon-pencil"></span></a>
               <a class="btn btn-primary" href="{% url 'tasks:tasks_remove' pk=tasks.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
           {% endif %}
+</div>
+
+</div>
 
 
 
-      <hr>
-      <a class="btn btn-primary btn-comment" href="{% url 'tasks:add_comment_to_tasks' pk=tasks.pk %}">Add comment</a>
+      <a class="btn btn-primary btn-comment" href="{% url 'tasks:add_comment_to_tasks' pk=tasks.pk %}" style="margin-top:10px; margin-left:20px">Add comment</a>
       <div class="container">
 
 
