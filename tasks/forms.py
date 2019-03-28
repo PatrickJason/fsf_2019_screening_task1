@@ -13,6 +13,7 @@ class AddAssigneeForm(forms.ModelForm):
         fields =('title','assignee',)
     def __init__(self, *args, **kwargs):
         """
+        
         Constructor. Called in the URLconf; can contain helpful extra
         keyword arguments, and other things.
         """
