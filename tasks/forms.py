@@ -13,7 +13,7 @@ class AddAssigneeForm(forms.ModelForm):
         fields =('title','assignee',)
     def __init__(self, *args, **kwargs):
         """
-        
+
         Constructor. Called in the URLconf; can contain helpful extra
         keyword arguments, and other things.
         """
@@ -46,6 +46,8 @@ class AddAssigneeForm(forms.ModelForm):
         for x in memb:
             i=i+1
             c.append((i,x))
+        if self.request.user not in memb:
+            c.append((i+1,str(self.request.user)))
         c=tuple(c)
         print(c)
         val = [ (x.id,x) for x in User.objects.all()]

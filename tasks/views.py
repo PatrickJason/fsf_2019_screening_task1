@@ -21,23 +21,18 @@ class TasksListView(ListView):
     def get_context_data(self, **kwargs):
         teams=[]
         temp_for_storing_teams=[]
-        # for t in Teams.objects.None():
-        i=1
-        while(True):
-            try:
-                t = Teams.objects.get(id=i)
-                i=i+1
+        try:
+            for t in Teams.objects.all():
                 team_instance = t.team_members.all()
                 for m in team_instance:
                     if str(m) == str(self.request.user):
                         temp_for_storing_teams.append(t)
-                # temp =[team for team in Teams.objects.all() if self.request.user in t.team_members.all()]
                 for var in temp_for_storing_teams:
                     if var not in teams:
                         teams.append(var)
-            except ObjectDoesNotExist:
-                print('team DoesNotExist')
-                break
+        except ObjectDoesNotExist:
+            print('team DoesNotExist')
+            # break
         print(teams)
         # t = Teams.objects.first()
         # application.positions.all()
