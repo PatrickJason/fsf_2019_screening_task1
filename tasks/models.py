@@ -13,7 +13,7 @@ class Tasks(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=200)
     task_creator_str = models.TextField(default = 1)
-    assignee = models.ManyToManyField(User)
+    assignee = models.ManyToManyField(User,default=settings.AUTH_USER_MODEL)
     assigned_to_team = models.ForeignKey(Teams,related_name="assigned_to_team",on_delete = models.CASCADE,null = True)
     last_modified = models.DateTimeField( auto_now=True, editable=False)
     def __str__(self):

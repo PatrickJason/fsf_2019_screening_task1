@@ -2,7 +2,8 @@
 
 
 {% block teams_content %}
-<h4>Create A New Team</h4>
+<!-- <h4>Create A New Team</h4> -->
+<br>
   <form method="POST" action="{% url 'teams:create' %}" id="groupForm">
   	{% csrf_token %}
   	{{ form.as_p }}

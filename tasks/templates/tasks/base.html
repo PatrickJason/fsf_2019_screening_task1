@@ -44,26 +44,36 @@ font-family: 'Anton', sans-serif;color=#E25D33 !important;
 <!-- <body background=""> -->
   <body bgcolor =#282827>
 
-    <nav class="navbar  navbar-inverse mynav" role="navigation" id="navbar">
-    			<div class="container">
 
-            <a class="navbar-brand mynav" href="{% url 'tasks:tasks_list' %}">Task Manager</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'tasks:tasks_list' %}"><h4><b>Task Manager</b></h4></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-    					<ul class="nav navbar-nav navbar-right">
-    						{% if user.is_authenticated %}
-
-                      <li><a href="{% url 'accounts:logout' %}" class="btn btn-simple">Log out</a></li>
-    						{% else %}
-
-    						      <li><a href="{% url 'accounts:login' %}" class="btn btn-simple">Log in</a></li>
-    						      <li><a href="{% url 'accounts:signup' %}" class="btn btn-simple">Sign up</a></li>
-    						{% endif %}
-    					</ul>
-
-
-
-    			</div>
-    		</nav>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav navbar-right">
+      {% if user.is_authenticated %}
+      <li class="nav-item active btn btn-outline-success">
+        <a class="nav-link" href="{% url 'tasks:tasks_new' %}" class="btn btn-success"><h4>Create Tasks </h4></a>
+      </li>
+      <li class="nav-item active btn btn-outline-info" >
+        <a class="nav-link" href="{% url 'teams:create' %}" class="btn btn-info"><h4>Create Teams</h4></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'accounts:logout' %}"><h4>Logout</h4></a>
+      </li>
+      {% else %}
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'accounts:signup' %}" class="btn btn-simple">SignUp</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
         {% block content %}
 
         {% endblock %}

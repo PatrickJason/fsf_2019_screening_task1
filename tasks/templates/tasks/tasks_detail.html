@@ -21,8 +21,8 @@
           <p class='taskscontent' ><b> DESCRIPTION: </b>{{ tasks.description|safe|linebreaksbr }}</p>
 
           {% if user.username == tasks.task_creator_str  %}
-              <a class="btn btn-dark" href="{% url 'tasks:tasks_edit' pk=tasks.pk %}" ><span class="glyphicon glyphicon-pencil"></span></a>
-              <a class="btn btn-primary" href="{% url 'tasks:tasks_remove' pk=tasks.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+              <a class="btn btn-dark" href="{% url 'tasks:tasks_edit' pk=tasks.pk %}" >Add assignee <span class="glyphicon glyphicon-pencil"></span></a>
+              <a class="btn btn-primary" href="{% url 'tasks:tasks_remove' pk=tasks.pk %}">Delete <span class="glyphicon glyphicon-remove"></span></a>
           {% endif %}
 </div>
 

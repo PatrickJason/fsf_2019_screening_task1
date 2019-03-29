@@ -10,7 +10,7 @@ User =get_user_model()
 class AddAssigneeForm(forms.ModelForm):
     class Meta:
         model = Tasks
-        fields =('title','assignee',)
+        fields =('title','description','assignee',)
     def __init__(self, *args, **kwargs):
         """
 
@@ -64,6 +64,8 @@ class TasksForm(forms.ModelForm):
         model = Tasks
 
         fields = ('title','description','status','assigned_to_team',)
+        assigned_to_team = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,label="Notify and subscribe users to this post:")
+
     def __init__(self, *args, **kwargs):
         """
         Constructor. Called in the URLconf; can contain helpful extra
@@ -98,14 +100,18 @@ class TasksForm(forms.ModelForm):
         print('user','username',user,user.username)
         teams_created = [team for team in Teams.objects.all() if user.username == str(team.created_by)]
         i=0
+        list_t=[]
+        print(teams_created)
         for x in teams_created:
             i=i+1
-            c.append((i,x))
+            c.append((x.id,x))
+            list_t.append(x)
         c=tuple(c)
-        print(c)
+        print(c,'user',user.id)
         val = [ (x.id,x) for x in User.objects.all()]
         print(val)
-        assigned_to_team = forms.ChoiceField(widget=forms.CheckboxSelectMultiple,label="Notify and subscribe users to this post:",choices= c)
+        query = "SELECT id,name FROM 'teams_teams' WHERE created_by_id ={}".format(str(user.id))
+        # assigned_to_team = forms.ModelChoiceField(widget=forms.Select(),label="Notify and subscribe users to this post:",queryset =Teams.objects.raw(query) )
         self.fields['assigned_to_team'].choices = c
         # widgets = {
         # 'assignee': forms.HiddenInput()
@@ -115,11 +121,29 @@ class TasksForm(forms.ModelForm):
     #     super().__init__(*args, **kwargs)
 
         # if user is not None:
-        #     self.fields["assigned_to_team"].queryset = (
-        #         Teams.objects.filter(
-        #             pk__in=user.teams.values_list("teams__pk")
-        #         )
-        #     )
+        print(query)
+        # self.fields["assigned_to_team"].queryset =( Teams.objects.raw(query) )
+    def _set_queryset(self, queryset):
+        self._queryset = None if queryset is None else queryset
+        self.widget.choices = self.choices
+    def get_queryset(self):
+        """
+        Return the `QuerySet` that will be used to look up the object.
+        This method is called by the default implementation of get_object() and
+        may not be called if get_object() is overridden.
+        """
+        if self.queryset is None:
+            if self.model:
+                return self.model._default_manager.all()
+            else:
+                raise ImproperlyConfigured(
+                    "%(cls)s is missing a QuerySet. Define "
+                    "%(cls)s.model, %(cls)s.queryset, or override "
+                    "%(cls)s.get_queryset()." % {
+                        'cls': self.__class__.__name__
+                    }
+                )
+        return self.queryset
 class CommentsForm(forms.ModelForm):
     class Meta:
         model = Comments
