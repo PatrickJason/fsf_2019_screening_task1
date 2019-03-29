@@ -1,12 +1,51 @@
-{% extends "teams/teams_base.html" %}
+{% extends 'tasks/base.html' %}
 
+{% load staticfiles %}
+{% block content %}
 
-{% block teams_content %}
-<!-- <h4>Create A New Team</h4> -->
-<br>
-  <form method="POST" action="{% url 'teams:create' %}" id="groupForm">
-  	{% csrf_token %}
-  	{{ form.as_p }}
-  	<input type="submit" value="Create" class="btn btn-primary btn-large">
-  </form>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <style media="screen">
+      html *
+    {
+    font-family: 'Montserrat', sans-serif;color=#E25D33 !important;
+    }
+    </style>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> -->
+  </head>
+  <body>
+    <div class="container">
+        <h1>Create Team</h1>
+        <form method ="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+{{ form.source.errors }}
+{{ form.source }}
+          <div class="container">
+            <label >         <h4> Team name  : </h4></label>{{form.name}}{{form.name.errors}}
+            <small class="form-text text-muted">Enter your title here</small>
+          </div>
+          <div class="container">
+            <label >        <h4> Description :  </h4></label>{{form.description}}{{form.description.errors}}
+            <small class="form-text text-muted">Enter the task description</small>
+          </div>
+          <div class="container">
+            <label >         <h4>Add teammates:   </h4>   </label>{{form.team_members}}{{form.team_members.errors}}
+              <small class="form-text text-muted">Please select user(s)</small>
+          </div>
+                    <br>
+          <button type="submit" class="btn btn-dark"><h4>Submit</h4></button>
+        </form>
+        <!-- <form method="POST">
+            {% csrf_token %}
+            {{ form.password1 }}
+            <input type="submit" value="Sign Up" class="btn btn-dark">
+        </form> -->
+    </div>
+  </body>
+</html>
 {% endblock %}

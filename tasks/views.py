@@ -160,6 +160,7 @@ class PassRequestToFormViewMixin:
         return kwargs
 class TasksUpdateView(PassRequestToFormViewMixin,LoginRequiredMixin,UpdateView):
     login_url = '/login/'
+    template_name = 'tasks/tasks_update.html'
     redirect_field_name = 'tasks/tasks_detail.html'
 
     form_class = AddAssigneeForm
