@@ -38,3 +38,13 @@ class TestViews(TestCase):
         self.assertEquals(t2.task_creator,pat)
         self.assertEquals(response.status_code,302)
         # self.assertEquals(self.project)
+
+
+    def test_TasksDetailView(self):
+        response = self.client.get(reverse('tasks:tasks_detail',kwargs={'pk':1}))
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response,'tasks/tasks_detail.html')
+
+    def test_TasksDeleteView(self):
+        response = self.client.get(reverse('tasks:tasks_remove',kwargs={'pk':1}))
+        self.assertEquals(response.status_code,302)
