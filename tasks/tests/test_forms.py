@@ -5,14 +5,10 @@ from tasks.models import Tasks,Comments
 from teams.models import Teams
 from django.contrib.auth.models import User
 from tasks.forms import TasksForm,AddAssigneeForm
-
+from tasks.views import CreateTasksView
 
 
 class TestForms(TestCase):
-    def test_get_form_kwargs(self):
-        kwargs = super(CreateTasksView, self).get_form_kwargs()
-        kwargs.update({'user': self.request.user})
-        return kwargs
     def test_init(self):
         TasksForm(user= User.objects.create_user('Patrick', 'jpatrickjason@gmail.com', 'patpassword'))
     def test_task_form_valid_data(self):
@@ -20,13 +16,15 @@ class TestForms(TestCase):
         pat = User.objects.get(username='Patrick1')
         Teams.objects.create(name="team12", created_by=pat,)
         team = Teams.objects.get(name="team12")
+        team_choice =tuple([(team.id,team),])
         form = TasksForm(data={
 
             'title':"New task",
             'description':"i am testing",
             'status':"active",
-            'assigned_to_team':team
+            'assigned_to_team':team.id
 
         },user=pat
         )
+        print(form.errors)
         self.assertTrue(form.is_valid())

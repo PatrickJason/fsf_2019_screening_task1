@@ -78,6 +78,7 @@ class CreateTasksView(LoginRequiredMixin,CreateView):
     form_class = TasksForm
     model = Tasks
     def get_form_kwargs(self):
+        print(self.request.body)
         kwargs = super(CreateTasksView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
