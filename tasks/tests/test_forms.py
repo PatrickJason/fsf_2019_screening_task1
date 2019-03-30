@@ -4,7 +4,7 @@ from django.urls import reverse
 from tasks.models import Tasks,Comments
 from teams.models import Teams
 from django.contrib.auth.models import User
-from tasks.forms import TasksForm,AddAssigneeForm
+from tasks.forms import TasksForm,AddAssigneeForm,CommentsForm
 from tasks.views import CreateTasksView
 
 
@@ -16,7 +16,6 @@ class TestForms(TestCase):
         pat = User.objects.get(username='Patrick1')
         Teams.objects.create(name="team12", created_by=pat,)
         team = Teams.objects.get(name="team12")
-        team_choice =tuple([(team.id,team),])
         form = TasksForm(data={
 
             'title':"New task",
@@ -28,3 +27,37 @@ class TestForms(TestCase):
         )
         print(form.errors)
         self.assertTrue(form.is_valid())
+    def test_task_form_check_valid_no_data(self):
+        User.objects.create_user('Patrick1', 'jpatrickjason@gmail.com', 'patpassword')
+        pat = User.objects.get(username='Patrick1')
+        Teams.objects.create(name="team12", created_by=pat,)
+        team = Teams.objects.get(name="team12")
+        form = TasksForm(data={
+
+        },user=pat
+        )
+        print(form.errors)
+        self.assertFalse(form.is_valid())
+    def test_comment_form_valid_data(self):
+        User.objects.create_user('Patrick1', 'jpatrickjason@gmail.com', 'patpassword')
+        pat = User.objects.get(username='Patrick1')
+        Teams.objects.create(name="team12", created_by=pat,)
+        team = Teams.objects.get(name="team12")
+        task = Tasks.objects.create(task_creator=pat,title="my new task",description="mine ",status="active",assigned_to_team = team)
+        form = CommentsForm(data={
+            'text':"i am testing",
+        }
+        )
+        print(form.errors)
+        self.assertTrue(form.is_valid())
+    def test_comment_form_valid_data_no_data(self):
+        User.objects.create_user('Patrick1', 'jpatrickjason@gmail.com', 'patpassword')
+        pat = User.objects.get(username='Patrick1')
+        Teams.objects.create(name="team12", created_by=pat,)
+        team = Teams.objects.get(name="team12")
+        task = Tasks.objects.create(task_creator=pat,title="my new task",description="mine ",status="active",assigned_to_team = team)
+        form = CommentsForm(data={
+        }
+        )
+        print(form.errors)
+        self.assertFalse(form.is_valid())
