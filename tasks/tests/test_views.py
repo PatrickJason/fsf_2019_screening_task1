@@ -4,6 +4,12 @@ from tasks.models import Tasks,Comments
 from teams.models import Teams
 from django.contrib.auth.models import User
 
+"""
+Testing the views in the tasks app
+1.CreateTasksView
+2.TasksDeleteView
+3.TasksDetailView
+"""
 
 
 class TestViews(TestCase):
@@ -37,7 +43,6 @@ class TestViews(TestCase):
         t2= Tasks.objects.get(id=1)
         self.assertEquals(t2.task_creator,pat)
         self.assertEquals(response.status_code,302)
-        # self.assertEquals(self.project)
 
 
     def test_TasksDetailView(self):

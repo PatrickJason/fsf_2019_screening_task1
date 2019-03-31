@@ -16,7 +16,6 @@ font-family: 'Montserrat', sans-serif;color=#E25D33 !important;
     <title></title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
-    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> -->
   </head>
   <body>
     <div class="container">
@@ -24,8 +23,8 @@ font-family: 'Montserrat', sans-serif;color=#E25D33 !important;
         <form method ="POST">
             {% csrf_token %}
             {{ form.non_field_errors }}
-{{ form.source.errors }}
-{{ form.source }}
+            {{ form.source.errors }}
+            {{ form.source }}
           <div class="container">
             <label >         <h4> Title  : </h4></label>{{form.title}}{{form.title.errors}}
             <small class="form-text text-muted">Enter your title here</small>
@@ -41,11 +40,6 @@ font-family: 'Montserrat', sans-serif;color=#E25D33 !important;
                     <br>
           <button type="submit" class="btn btn-dark"><h4>Submit</h4></button>
         </form>
-        <!-- <form method="POST">
-            {% csrf_token %}
-            {{ form.password1 }}
-            <input type="submit" value="Sign Up" class="btn btn-dark">
-        </form> -->
     </div>
   </body>
 </html>

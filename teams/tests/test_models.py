@@ -3,7 +3,11 @@ from django.test import TestCase
 from tasks.models import Tasks,Comments
 from teams.models import Teams
 from django.contrib.auth.models import User
-
+"""
+Test the models of the teams app
+1.Create a team
+2.Delete a team
+"""
 
 class TasksTestCase(TestCase):
 
@@ -14,6 +18,7 @@ class TasksTestCase(TestCase):
         User.objects.create_user('Patrick1', 'jpatrickjason@gmail.com', 'patpassword')
         pat = User.objects.get(username='Patrick1')
 
+    # Create a team and verify the data created
     def test_team_creation(self):
         pat = User.objects.get(username='Patrick1')
         pat2 = User.objects.get(username='Patrick2')
@@ -23,7 +28,7 @@ class TasksTestCase(TestCase):
         )
         self.assertEquals(team.created_by,pat)
 
-
+    # Delete a team and verify the deletion
     def test_team_deletion(self):
         pat = User.objects.get(username='Patrick1')
         pat2 = User.objects.get(username='Patrick2')
@@ -35,4 +40,3 @@ class TasksTestCase(TestCase):
         team.delete()
         team = Teams.objects.filter(name="teamA1").first()
         self.assertEquals(team,None)
-        

@@ -19,7 +19,7 @@
           {% endif %}
 
           <p class='taskscontent' ><b> DESCRIPTION: </b>{{ tasks.description|safe|linebreaksbr }}</p>
-
+<!--Only display the add assignee and delete option is the user is the creator of the task   -->
           {% if user.username == tasks.task_creator_str  %}
               <a class="btn btn-dark" href="{% url 'tasks:tasks_edit' pk=tasks.pk %}" >Add assignee <span class="glyphicon glyphicon-pencil"></span></a>
               <a class="btn btn-primary" href="{% url 'tasks:tasks_remove' pk=tasks.pk %}">Delete <span class="glyphicon glyphicon-remove"></span></a>
@@ -33,7 +33,7 @@
       <a class="btn btn-primary btn-comment" href="{% url 'tasks:add_comment_to_tasks' pk=tasks.pk %}" style="margin-top:10px; margin-left:20px">Add comment</a>
       <div class="container">
 
-
+<!--Display all the comemnts in the task  -->
       {% for comment in tasks.comments.all %}
       <br>
           {% if user.is_authenticated  %}

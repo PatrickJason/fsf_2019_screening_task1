@@ -28,13 +28,10 @@ class SingleTeams(generic.DetailView):
     def get_context_data(self, **kwargs):
         teams1=[]
         for t in Teams.objects.all():
-        # t = Teams.objects.first()
-        # application.positions.all()
-            teams1.append([team for team in Teams.objects.all() if self.request.user in t.team_members.all()])
+        teams1.append([team for team in Teams.objects.all() if self.request.user in t.team_members.all()])
         teams_created = [team for team in Teams.objects.all() if self.request.user == team.created_by]
         tasks_created = [task for task in Tasks.objects.all() if self.request.user == task.task_creator]
         tasks_assigned = [task for task in Tasks.objects.all() if self.request.user == task.assignee]
-        # team_mem = [ mem for mem in ]
         print(teams_created)
         team_str=[]
         for t in teams_created:
@@ -52,8 +49,6 @@ class SingleTeams(generic.DetailView):
         context['tasks_assigned']=tasks_assigned
         context['my_team_tasks']=my_team_tasks
         context['team_str']= team_str
-        # t = Teams.objects.get(id = pk)
-        # context['creator'] = str(t.created_by)
         return context
 
 

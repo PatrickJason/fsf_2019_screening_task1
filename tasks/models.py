@@ -27,7 +27,6 @@ class Tasks(models.Model):
 
 class Comments(models.Model):
     task = models.ForeignKey(Tasks, related_name='comments',on_delete = models.CASCADE)
-    # print(settings.AUTH_USER_MODEL)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,related_name ='created_by',on_delete = models.PROTECT)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)

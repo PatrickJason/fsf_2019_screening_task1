@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-
+<!-- Each form elements and corresponding errors and renderee sepearately -->
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -16,34 +16,25 @@
         <form method ="POST">
             {% csrf_token %}
             {{ form.non_field_errors }}
-{{ form.source.errors }}
-{{ form.source }}
+            {{ form.source.errors }}
+            {{ form.source }}
           <div class="container">
             <label for="exampleInputEmail1">          Username  : </label>{{form.username}}{{form.username.errors}}
-            <!-- <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"> -->
           </div>
           <div class="container">
             <label >         Email :  </label>{{form.email}}{{form.email.errors}}
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> -->
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
           </div>
           <div class="container">
             <label style="width:800px; margin:0 auto;" >         Password :      </label>{{form.password1}}{{form.password1.errors}}
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> -->
               <small id="PasswordHelp" class="form-text text-muted">Be a minimum of eight (8) characters in length.</small>
           </div>
            <div class="container" >
              <label style="width:800px; margin:0 auto;">         Confirm Password :   </label>{{form.password2}}{{form.password2.errors}}
-                      <!-- <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> -->
                     </div>
                     <br>
           <button type="submit" class="btn btn-dark">Submit</button>
         </form>
-        <!-- <form method="POST">
-            {% csrf_token %}
-            {{ form.password1 }}
-            <input type="submit" value="Sign Up" class="btn btn-dark">
-        </form> -->
     </div>
   </body>
 </html>

@@ -21,42 +21,31 @@ class TasksListView(ListView):
     def get_context_data(self, **kwargs):
         teams=[]
         temp_for_storing_teams=[]
+        # Obtaining the teams in which the user is the member and storing in the 'teams' list
         try:
             for t in Teams.objects.all():
-                team_instance = t.team_members.all()
+                team_instance = t.team_members.all()    # Creating an instance to iterate through it
                 for m in team_instance:
-                    if str(m) == str(self.request.user):
+                    if str(m) == str(self.request.user):    # Checking if user is a member of the current team instance
                         temp_for_storing_teams.append(t)
                 for var in temp_for_storing_teams:
                     if var not in teams:
                         teams.append(var)
         except ObjectDoesNotExist:
             print('team DoesNotExist')
-            # break
-        print(teams)
-        # t = Teams.objects.first()
-        # application.positions.all()
-        # t = Teams.objects.first()
-        # application.positions.all()
-        # teams = [team for team in Teams.objects.all() if self.request.user in t.team_members.all()]
+        # Store the teams created by the user
         teams_created = [team for team in Teams.objects.all() if self.request.user == team.created_by]
+        # Store the tasks created by the user
         tasks_created = [task for task in Tasks.objects.all() if self.request.user == task.task_creator]
-        for t in Tasks.objects.all():
-            for i in t.assignee.all():
-                print('assignee',i)
+        # Store the tasks assigned to the user
         tasks_assigned = [task for task in Tasks.objects.all() if self.request.user in task.assignee.all()]
+        # Store the tasks in the teams in which the user is a member
         my_team_tasks = []
         for team in teams:
             for task in Tasks.objects.all():
                 if task.assigned_to_team == team:
                     my_team_tasks.append(task)
         temp_members=[]
-        print('teams :',teams)
-        # for team in teams:
-            # for mem in team.team_members.all():
-                # temp_members.append(mem)
-        print('members',temp_members)
-
         context = super(TasksListView, self).get_context_data(**kwargs)
         context['teams'] = teams
         context['teams_created']=teams_created
@@ -77,77 +66,12 @@ class CreateTasksView(LoginRequiredMixin,CreateView):
 
     form_class = TasksForm
     model = Tasks
+
     def get_form_kwargs(self):
         print(self.request.body)
         kwargs = super(CreateTasksView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
-    # def __init__(self, **kwargs):
-    #     """
-    #     Constructor. Called in the URLconf; can contain helpful extra
-    #     keyword arguments, and other things.
-    #     """
-    #     # Go through keyword arguments, and either save their values to our
-    #     # instance, or raise an error.
-    #     for key, value in kwargs.items():
-    #         setattr(self, key, value)
-    #         teams=[]
-    #         temp_for_storing_teams=[]
-    #         # for t in Teams.objects.None():
-    #         i=1
-    #         memb =[]
-    #         try:
-    #             myid = self.instance.assigned_to_team_id
-    #             print(myid)
-    #             t = Teams.objects.get(id = myid)
-    #             i=i+1
-    #             team_instance = t.team_members.all()
-    #             for m in team_instance:
-    #                 memb.append(m)
-    #                 if str(m) == str(self.request.user):
-    #                     temp_for_storing_teams.append(t)
-    #             # temp =[team for team in Teams.objects.all() if self.request.user in t.team_members.all()]
-    #             for var in temp_for_storing_teams:
-    #                 if var not in teams:
-    #                     teams.append(var)
-    #         except ObjectDoesNotExist:
-    #             print('team DoesNotExist')
-    #         print('memb',memb)
-    #         c=[]
-    #         i=0
-    #         teams_created = [team for team in Teams.objects.all() if request.user == team.created_by]
-    #         for x in teams_created:
-    #             i=i+1
-    #             c.append((i,x))
-    #         c=tuple(c)
-    #         print(c)
-    #         val = [ (x.id,x) for x in User.objects.all()]
-    #         print(val)
-    #         # assigned_to_team = forms.ChoiceField(widget=forms.Select(),label="Notify and subscribe users to this post:",choices= c)
-    #         # self.fields['assigned_to_team'].choices = c
-    #         # assigned_to_team = request.POST.get('assigned_to_team')
-    #         # form.fields['assigned_to_team'].choices = c
-    # def _set_queryset(self, queryset):
-    #     self._queryset = None if queryset is None else queryset
-    #     self.widget.choices = self.choices
-    # def get_queryset(self):
-    #     """
-    #     Return the `QuerySet` that will be used to look up the object.
-    #     This method is called by the default implementation of get_object() and
-    #     may not be called if get_object() is overridden.
-    #     """
-    #     if self.queryset is None:
-    #         if self.model:
-    #             return self.model._default_manager.all()
-    #         else:
-    #             raise ImproperlyConfigured(
-    #                 "%(cls)s is missing a QuerySet. Define "
-    #                 "%(cls)s.model, %(cls)s.queryset, or override "
-    #                 "%(cls)s.get_queryset()." % {
-    #                     'cls': self.__class__.__name__
-    #                 }
-    #             )
-    #     return self.queryset
 
     def form_valid(self, form):
         form.instance.task_creator = self.request.user
@@ -155,10 +79,12 @@ class CreateTasksView(LoginRequiredMixin,CreateView):
         return super(CreateTasksView, self).form_valid(form)
 
 class PassRequestToFormViewMixin:
+
     def get_form_kwargs(self):
         kwargs = super(PassRequestToFormViewMixin, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
+
 class TasksUpdateView(PassRequestToFormViewMixin,LoginRequiredMixin,UpdateView):
     login_url = '/login/'
     template_name = 'tasks/tasks_update.html'

@@ -7,6 +7,12 @@ from teams.views import (CreateTeams,
                          TeamsDeleteView)
 from django.contrib.auth.models import User
 
+"""
+Tests the views in teams app
+1.CreateTeams view
+2.SingleTeams view(DetailView)
+3.DeleteTeams view
+"""
 
 class TestViews(TestCase):
     # Setting up the initial data to be tested
@@ -36,12 +42,13 @@ class TestViews(TestCase):
         self.assertEquals(t2.created_by,pat)
         self.assertEquals(response.status_code,302)
 
-
+    # Test for the SingleTeams detail view and verify the response
     def test_SingeTeamsView(self):
         response = self.client.get(reverse('teams:single',kwargs={'pk':1}))
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response,'teams/teams_detail.html')
 
+    # Test for the TasksDeleteView and verify the response
     def test_TasksDeleteView(self):
         response = self.client.get(reverse('teams:teams_remove',kwargs={'pk':1}))
         self.assertEquals(response.status_code,302)

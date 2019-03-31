@@ -25,6 +25,8 @@ class TestForms(TestCase):
         )
         print(form.errors)
         self.assertTrue(form.is_valid())
+
+
     def test_teams_form_valid_with_no_data(self):
         User.objects.create_user('Patrick2', 'jpatrickjason@gmail.com', 'patpassword')
         pat2 = User.objects.get(username='Patrick2')
