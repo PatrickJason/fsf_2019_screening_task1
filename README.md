@@ -13,6 +13,13 @@ Task Manager is a web application designed using Django which assists the people
 3. HTML5 and CSS
 4. Bootstrap 4
 
+# Setup
+1. Run the Django server and open the link http://127.0.0.1:8000/accounts/login/
+* username- pat , password-11223344J
+* username - rgs , passsword-11223344J
+* username - allwin, password-11223344J
+2. Create a new user using the link http://127.0.0.1:8000/accounts/signup/
+
 # Features:
 1. Design and Architecture documentation done in IEEE standard.
 2. Seperate testing done in views, urls, models, forms for each app.
